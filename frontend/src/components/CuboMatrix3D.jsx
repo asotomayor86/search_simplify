@@ -58,7 +58,7 @@ function makeAxisLine(p0, p1, color) {
 const CAM_POSES = {
   "1d": { pos: new THREE.Vector3(0, 0, 2.4), look: new THREE.Vector3(0, 0, 0) },
   "2d": { pos: new THREE.Vector3(0, 0, 2.4), look: new THREE.Vector3(0, 0, 0) },
-  "3d": { pos: new THREE.Vector3(2.3, 0.9, 1.7), look: new THREE.Vector3(0, 0, 0) },
+  "3d": { pos: new THREE.Vector3(1.7, 0.9, 2.3), look: new THREE.Vector3(0, 0, 0) },
 };
 
 // Para una etiqueta numeral, devuelve un offset 3D según el modo, así no se
@@ -169,11 +169,11 @@ const CuboMatrix3D = forwardRef(function CuboMatrix3D(
     marco2D.position.set(0, 0, 0);
     scene.add(marco2D);
 
-    // ── Vértice ideal 2D (cuadrado plano en XY) ──────
-    const ideal2DGeom = new THREE.PlaneGeometry(0.07, 0.07);
+    // ── Vértice ideal 2D (cuadrado plano en XY) — verde, tamaño reducido a la mitad
+    const ideal2DGeom = new THREE.PlaneGeometry(0.035, 0.035);
     const ideal2DEdges = new THREE.EdgesGeometry(ideal2DGeom);
     const ideal2DMat = new THREE.LineBasicMaterial({
-      color: new THREE.Color(colores.accent),
+      color: new THREE.Color(colores.success),
       transparent: true,
       opacity: 0,
     });
@@ -181,16 +181,16 @@ const CuboMatrix3D = forwardRef(function CuboMatrix3D(
     ideal2D.position.set(0.5, -0.5, 0);
     scene.add(ideal2D);
 
-    // ── Vértice ideal 3D (cubo wireframe) ──
-    const idealGeom = new THREE.BoxGeometry(0.07, 0.07, 0.07);
+    // ── Vértice ideal 3D (cubo wireframe) — verde, tamaño reducido a la mitad
+    const idealGeom = new THREE.BoxGeometry(0.035, 0.035, 0.035);
     const idealEdges = new THREE.EdgesGeometry(idealGeom);
-    const idealMat = new THREE.LineBasicMaterial({ color: new THREE.Color(colores.accent), transparent: true, opacity: 0 });
+    const idealMat = new THREE.LineBasicMaterial({ color: new THREE.Color(colores.success), transparent: true, opacity: 0 });
     const idealCube = new THREE.LineSegments(idealEdges, idealMat);
     idealCube.position.set(0.5, -0.5, 0.5);
     scene.add(idealCube);
 
     // Etiqueta IDEAL — su posición y opacidad cambian con el modo
-    const idealLabel = makeLabelSprite("IDEAL", colores.accent, AX);
+    const idealLabel = makeLabelSprite("IDEAL", colores.success, AX);
     idealLabel.position.set(0.5, -0.6, 0);
     idealLabel.material.opacity = 0;
     scene.add(idealLabel);
@@ -320,8 +320,8 @@ const CuboMatrix3D = forwardRef(function CuboMatrix3D(
       c.colores = col;
       c.cubeLines.material.color.set(col.border);
       c.marco2D.material.color.set(col.border);
-      c.ideal2D.material.color.set(col.accent);
-      c.idealCube.material.color.set(col.accent);
+      c.ideal2D.material.color.set(col.success);
+      c.idealCube.material.color.set(col.success);
       c.axes.forEach((l) => l.material.color.set(col.accent));
     });
     themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
