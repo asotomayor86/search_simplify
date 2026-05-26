@@ -6,6 +6,7 @@ import useAutoguardado from "./hooks/useAutoguardado";
 import InicioPage from "./pages/InicioPage";
 import TareasPage from "./pages/TareasPage";
 import ClasificacionPage from "./pages/ClasificacionPage";
+import AyudaPage from "./pages/AyudaPage";
 
 const NAV_ITEMS = [
   {
@@ -32,6 +33,15 @@ const NAV_ITEMS = [
     icon: (
       <svg viewBox="0 0 20 20" fill="currentColor" className="nav-icon">
         <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+      </svg>
+    ),
+  },
+  {
+    to: "/ayuda",
+    label: "AYUDA",
+    icon: (
+      <svg viewBox="0 0 20 20" fill="currentColor" className="nav-icon">
+        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
       </svg>
     ),
   },
@@ -104,6 +114,7 @@ function AppInner() {
           <Route path="/inicio" element={<InicioPage />} />
           <Route path="/tareas" element={<TareasPage />} />
           <Route path="/clasificacion" element={<ClasificacionPage />} />
+          <Route path="/ayuda" element={<AyudaPage />} />
           {/* Compatibilidad con rutas anteriores */}
           <Route path="/consumo-tiempo" element={<Navigate to="/clasificacion" replace />} />
           <Route path="/criticidad" element={<Navigate to="/clasificacion" replace />} />

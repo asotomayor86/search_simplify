@@ -132,12 +132,16 @@ function computarRegion(tareas, topN) {
 function PanelAcordeon({ id, titulo, abierto, onToggle, badge, children }) {
   return (
     <div style={{
-      border: "1px solid var(--border)",
+      display: "flex", flexDirection: "column",
+      // El abierto se expande para llenar el espacio disponible de la columna;
+      // los cerrados se mantienen a su altura natural (solo cabecera).
+      flex: abierto ? "1 1 0" : "0 0 auto",
+      minHeight: 0,
+      border: `1px solid ${abierto ? "var(--border-accent)" : "var(--border)"}`,
       borderRadius: "var(--radius)",
       background: "var(--bg-surface)",
       overflow: "hidden",
       transition: "border-color 150ms",
-      borderColor: abierto ? "var(--border-accent)" : "var(--border)",
     }}>
       <button
         onClick={() => onToggle(id)}
@@ -153,6 +157,7 @@ function PanelAcordeon({ id, titulo, abierto, onToggle, badge, children }) {
           fontSize: 12, fontWeight: 700,
           letterSpacing: "0.06em",
           textAlign: "left",
+          flexShrink: 0,
         }}
       >
         <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -164,7 +169,12 @@ function PanelAcordeon({ id, titulo, abierto, onToggle, badge, children }) {
         {badge}
       </button>
       {abierto && (
-        <div style={{ padding: 8, borderTop: "1px solid var(--border)" }}>
+        <div style={{
+          flex: 1, minHeight: 0,
+          padding: 8, borderTop: "1px solid var(--border)",
+          display: "flex", flexDirection: "column",
+          overflow: "hidden",
+        }}>
           {children}
         </div>
       )}
@@ -350,7 +360,8 @@ export default function ClasificacionPage() {
               {/* ── Acordeón a la derecha ── */}
               <div style={{
                 display: "flex", flexDirection: "column", gap: 8,
-                overflowY: "auto",
+                minHeight: 0,    // Necesario en CSS Grid para que respete la altura del row
+                overflow: "hidden",
               }}>
                 <PanelAcordeon
                   id="consumo"
@@ -424,7 +435,7 @@ export default function ClasificacionPage() {
                       Completa los tres ejes para ver la región prioritaria.
                     </div>
                   ) : (
-                    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: 1, minHeight: 0 }}>
                       <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
                         Top-{topN} resaltadas. Tabla con todas las tareas clasificadas ({region.length}).
                       </div>
@@ -443,7 +454,7 @@ export default function ClasificacionPage() {
                           Conecta una carpeta para habilitar la exportación.
                         </div>
                       )}
-                      <div className="table-wrap" style={{ maxHeight: 320, overflowY: "auto" }}>
+                      <div className="table-wrap" style={{ flex: 1, minHeight: 0, overflowY: "auto" }}>
                         <table className="data-table">
                           <thead>
                             <tr>

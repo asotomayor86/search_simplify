@@ -268,11 +268,25 @@ const CuboMatrix3D = forwardRef(function CuboMatrix3D(
         controls.target.lerp(ctx.camTargetLook, 0.08);
         camera.lookAt(controls.target);
         const dist = camera.position.distanceTo(ctx.camTargetPos);
-        if (dist < 0.01) {
+        if (dist < 0.001) {
+          // Snap final. Volvemos a llamar lookAt desde la posición exacta para
+          // que la matriz de la cámara no quede "estirada" desde el último frame
+          // del lerp (origen del pequeño salto al terminar la transición).
           camera.position.copy(ctx.camTargetPos);
           controls.target.copy(ctx.camTargetLook);
+          camera.lookAt(controls.target);
           ctx.transicionando = false;
-          controls.enabled = modoRef.current === "3d";
+          if (modoRef.current === "3d") {
+            // Sincroniza el estado interno de OrbitControls con la posición
+            // actual y resetea cualquier inercia residual de damping.
+            const wasDamping = controls.enableDamping;
+            controls.enableDamping = false;
+            controls.update();
+            controls.enableDamping = wasDamping;
+            controls.enabled = true;
+          } else {
+            controls.enabled = false;
+          }
         }
       }
       if (controls.enabled) controls.update();
